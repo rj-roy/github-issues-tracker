@@ -41,21 +41,32 @@ const createElements = (labels) => {
   }).join(' ');
 }
 
+const status = (st) =>{
+    
+}
+
 
 const displayData = (cards) => {
     cards.forEach(e => {
         const issues = document.getElementById("issues");
+       
 
         const allCards = document.createElement('all-cards');
-        allCards.classList.add('pt-1.5', 'bg-red-500', 'rounded-lg', 'grid', 'place-content-end',)
+        allCards.classList.add('pt-1.5', 'rounded-lg', 'grid', 'place-content-end',)
         
+        if(e.status === "open"){
+            allCards.classList.add('bg-green-500')
+        }else{
+            allCards.classList.add('bg-[#a855f6]')
+        }
+
         allCards.innerHTML = `
-            <card-s class="max-w-sm bg-white rounded-lg shadow p-6 border border-gray-200 h-[100%]">
+            <card-s class="bg-white rounded-lg shadow p-6 border border-gray-200 h-[100%] mx-auto">
                 
                 <top-sec class="!flex justify-between items-start mb-4">
-                    <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                        <span id="status-img" class="text-green-500 text-xl">
-                            <img src="./assets/Open-Status.png" alt="">
+                    <div id="status-container" class="w-8 h-8 rounded-full flex items-center justify-center">
+                        <span id="status-img" class="text-xl">
+                            <img src="./assets/${e.status === "open" ? "open.png" : "closed.png"}" alt="">
                         </span>
                     </div>
                     <span id="priority" class="text-red-500 text-xs font-semibold uppercase bg-red-100 px-2 py-1 rounded-full">${e.priority}</span>
