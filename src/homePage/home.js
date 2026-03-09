@@ -51,30 +51,39 @@ const manageSpinner = (status) => {
     }
 }
 
+const modalId = async (id) => {
+    const url = `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`
+
+    const response = await fetch(url);
+    const details = await response.json();
+    modal(details.data);
+}
+
 // showModal
-const modal = (id) => {
+const modal = (m) => {   
+    console.log(m)
     const myModal = document.getElementById("my_modal_5");
     myModal.showModal();
 
     myModal.innerHTML = `
     <div class="modal-box max-w-2xl">
     
-        <h2 class="text-2xl font-bold mb-3">Fix broken image uploads</h2>
+        <h2 class="text-2xl font-bold mb-3">${m.title}</h2>
 
         <div class="flex items-center gap-2 text-sm text-base-content/70 mb-4">
-            <span class="badge badge-success">Opened</span>
+            <span class="badge badge-${m.status === "open" ? "success" : "secondary"}">${m.status}</span>
             <span>•</span>
-            <span>Opened by Fahim Ahmed</span>
+            <span>Opened by ${m.assignee}</span>
             <span>•</span>
-            <span>22/02/2026</span>
+            <span>${m.createdAt}</span>
         </div>
 
         <middle-sec class="!flex gap-2 mb-4 flex-wrap">
-            ds
+            ${createElements(m.labels)}
         </middle-sec>
 
         <p class="text-base-content/80 mb-6">
-            The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.
+            ${m.description}
         </p>
 
         <div class="card bg-base-200 mb-6">
@@ -83,13 +92,13 @@ const modal = (id) => {
                     <div>
                         <label class="text-sm text-base-content/60 block mb-1">Assignee:</label>
                         <div class="flex items-center gap-2">
-                            <span class="font-semibold">Fahim Ahmed</span>
+                            <span class="font-semibold">${m.assignee}</span>
                         </div>
                     </div>
 
                     <div>
                         <label class="text-sm text-base-content/60 block mb-1">Priority:</label>
-                        <span class="badge badge-error text-white">HIGH</span>
+                        <span class="badge badge-${m.priority === "high" ? "error" : m.priority === "low" ? "warning" : "info"} text-white">${m.priority}</span>
                     </div>
                 </div>
             </div>
@@ -139,7 +148,7 @@ const displayAllData = (cards) => {
 
 
         allCards.innerHTML = `
-            <card-s onclick="modal(${e.id})" class="bg-white rounded-lg shadow p-6 border border-gray-200 h-[100%] mx-auto">
+            <card-s onclick="modalId(${e.id})" class="bg-white rounded-lg shadow p-6 border border-gray-200 h-[100%] mx-auto">
                 
                 <top-sec class="!flex justify-between items-start mb-4">
                     <div id="status-container" class="w-8 h-8 rounded-full flex items-center justify-center">
@@ -147,7 +156,7 @@ const displayAllData = (cards) => {
                             <img src="./assets/${e.status === "open" ? "open.png" : "closed.png"}" alt="">
                         </span>
                     </div>
-                    <span id="priority" class="text-red-500 text-xs font-semibold uppercase bg-red-100 px-2 py-1 rounded-full">${e.priority}</span>
+                    <span id="priority" class="text-white text-xs font-semibold uppercase badge badge-${e.priority === "high" ? "error" : e.priority === "low" ? "warning" : "info"} px-2 py-1 rounded-full">${e.priority}</span>
                 </top-sec>
 
                 
