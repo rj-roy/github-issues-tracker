@@ -1,4 +1,4 @@
 left-sec, right-sec, top-sec, middle-sec, bottom-sec, text-group, extra-block, all-cards, card-s{
   display: block;
-  unicode-bidi: isolate; /* Standard browser behavior for divs */
+  unicode-bidi: isolate;
 }

@@ -8,7 +8,9 @@ const fetchAllIssus = () => {
 
     fetch(url)
         .then((res) => res.json())
-        .then((data) => displayAllData(data.data));
+        .then((data) => {
+            displayAllData(data.data)
+        });
 };
 fetchAllIssus();
 
@@ -42,7 +44,7 @@ const createElements = (labels) => {
 
 const displayAllData = (cards) => {
     const issues = document.getElementById("issues");
-    issues.innerHTML = " ";
+    issues.innerHTML = "";
 
     const openIssues = cards.filter(card => card.status === "open");
     const closedIssues = cards.filter(card => card.status === "closed");
