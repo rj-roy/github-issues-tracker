@@ -1,20 +1,18 @@
-const home = () => {
-    console.log("home");
-    document.getElementById("home").classList.remove("hidden");
-}
-
 const fetchAllIssus = () => {
     const url = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
-
+    manageSpinner(true)
     fetch(url)
         .then((res) => res.json())
         .then((data) => {
             displayAllData(data.data)
+            manageSpinner(false)
         });
 };
-fetchAllIssus();
+document.addEventListener("DOMContentLoaded", () => {
+    fetchAllIssus();
+});
 
-
+// spanLabels
 const createElements = (labels) => {
     return labels.map(label => {
         let colorClass = '';
@@ -42,6 +40,75 @@ const createElements = (labels) => {
     }).join(' ');
 }
 
+// spinner
+const manageSpinner = (status) => {
+    if (status === true) {
+        document.getElementById('spinner-loader').classList.remove('hidden');
+        document.getElementById('ss').classList.add('hidden');
+    } else {
+        document.getElementById('spinner-loader').classList.add('hidden');
+        document.getElementById('ss').classList.remove('hidden');
+    }
+}
+
+// showModal
+const modal = (id) => {
+    const myModal = document.getElementById("my_modal_5");
+    myModal.showModal();
+
+    myModal.innerHTML = `
+    <div class="modal-box max-w-2xl">
+    
+        <h2 class="text-2xl font-bold mb-3">Fix broken image uploads</h2>
+
+        <div class="flex items-center gap-2 text-sm text-base-content/70 mb-4">
+            <span class="badge badge-success">Opened</span>
+            <span>•</span>
+            <span>Opened by Fahim Ahmed</span>
+            <span>•</span>
+            <span>22/02/2026</span>
+        </div>
+
+        <middle-sec class="!flex gap-2 mb-4 flex-wrap">
+            ds
+        </middle-sec>
+
+        <p class="text-base-content/80 mb-6">
+            The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.
+        </p>
+
+        <div class="card bg-base-200 mb-6">
+            <div class="card-body p-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-sm text-base-content/60 block mb-1">Assignee:</label>
+                        <div class="flex items-center gap-2">
+                            <span class="font-semibold">Fahim Ahmed</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-sm text-base-content/60 block mb-1">Priority:</label>
+                        <span class="badge badge-error text-white">HIGH</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-action">
+            <form method="dialog">
+                <button class="btn btn-primary">Close</button>
+            </form>
+        </div>
+
+    </div>
+
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+    `
+}
+
 const displayAllData = (cards) => {
     const issues = document.getElementById("issues");
     issues.innerHTML = "";
@@ -51,8 +118,7 @@ const displayAllData = (cards) => {
 
     // console.log(openIssues)
     // console.log(openIssues.length)
-    // console.log(closedIssues)
-
+    // console.log(closedIssues)    
     cards.forEach(e => {
         const allBtn = document.getElementById("all-btn");
         const openBtn = document.getElementById("open-btn");
@@ -62,7 +128,8 @@ const displayAllData = (cards) => {
         numOfIssues.innerText = e.id;
 
         const allCards = document.createElement('all-cards');
-        allCards.classList.add('pt-1.5', 'rounded-lg', 'grid', 'place-content-end',)
+        allCards.classList.add('pt-1.5', 'rounded-lg', 'grid', 'place-content-end', 'cursor-pointer',)
+
 
         if (e.status === "open") {
             allCards.classList.add('bg-green-500')
@@ -70,8 +137,9 @@ const displayAllData = (cards) => {
             allCards.classList.add('bg-[#a855f6]')
         }
 
+
         allCards.innerHTML = `
-            <card-s class="bg-white rounded-lg shadow p-6 border border-gray-200 h-[100%] mx-auto">
+            <card-s onclick="modal(${e.id})" class="bg-white rounded-lg shadow p-6 border border-gray-200 h-[100%] mx-auto">
                 
                 <top-sec class="!flex justify-between items-start mb-4">
                     <div id="status-container" class="w-8 h-8 rounded-full flex items-center justify-center">
@@ -97,18 +165,20 @@ const displayAllData = (cards) => {
                 </bottom-sec>
             </card-s>
         `
-
+        issues.appendChild(allCards);
 
         openBtn.addEventListener('click', () => {
             numOfIssues.innerText = " ";
             numOfIssues.innerText = openIssues.length;
-
             allCards.classList.remove("!hidden");
 
             if (e.status === "closed") {
                 allCards.classList.add("!hidden");
+
             }
         })
+
+
 
 
         closedBtn.addEventListener('click', () => {
@@ -126,8 +196,6 @@ const displayAllData = (cards) => {
         allBtn.addEventListener('click', () => {
             allCards.classList.remove("!hidden");
         })
-
-        issues.appendChild(allCards);
     });
 }
 
