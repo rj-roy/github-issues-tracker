@@ -58,8 +58,8 @@
 
     <main class="mt-15 bg-[#f8fafc]">
 
-        <section id="issus-btns" class="max-w-6xl mx-auto px-4 bg-[#ffffff] shadow-sm p-6">
-            <button id="all-btn" class="btn btn-primary hover:bg-[#333383] w-30">All</button>
+        <section id="issus-btns" class="max-w-6xl mx-auto px-4 bg-[#ffffff] shadow-sm p-6 flex flex-wrap gap-3">
+            <button onclick="fetchAllIssus();" id="all-btn" class="btn btn-primary hover:bg-[#333383] w-30">All</button>
             <button id="open-btn" class="btn btn-primary hover:bg-[#333383] w-30">Open</button>
             <button id="closed-btn" class="btn btn-primary hover:bg-[#333383] w-30">Closed</button>
         </section>
@@ -69,18 +69,18 @@
             <figure class="flex gap-3 items-center justify-center">
                 <img src="./assets/Aperture.png" alt="">
                 <figcaption>
-                    <h2 class="font-bold text-xl">50 Issues</h2>
+                    <h2 id="num-of-issues" class="font-bold text-xl"></h2>
                     <p class="sm:text-nowrap">Track and manage your project issues</p>
                 </figcaption>
             </figure>
 
             <div class="flex gap-3">
                 <div class="flex gap-1 justify-center items-center">
-                    <img src="./assets/Open-Status.png" alt="">
+                    <img src="./assets/open.png" alt="">
                     <p>Open</p>
                 </div>
                 <div class="flex gap-1 justify-center items-center">
-                    <img src="./assets/Closed- Status .png" alt="">
+                    <img src="./assets/closed.png" alt="">
                     <p>Closed</p>
                 </div>
             </div>
