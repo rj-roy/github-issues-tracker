@@ -5,11 +5,12 @@ const fetchAllIssus = () => {
         .then((res) => res.json())
         .then((data) => {
             displayAllData(data.data)
-            manageSpinner(false)
+            manageSpinner(false);
         });
 };
 document.addEventListener("DOMContentLoaded", () => {
     fetchAllIssus();
+    
 });
 
 // spanLabels
@@ -51,6 +52,15 @@ const manageSpinner = (status) => {
     }
 }
 
+// removeactive bt
+// const removeActive = () => {
+//     const lessonBtn = document.querySelectorAll('.fbt');
+
+//     lessonBtn.forEach(btn => btn.classList.remove('active'));
+// }
+
+
+// modal
 const modalId = async (id) => {
     const url = `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`
 
@@ -180,21 +190,26 @@ const displayAllData = (cards) => {
             numOfIssues.innerText = " ";
             numOfIssues.innerText = openIssues.length;
             allCards.classList.remove("!hidden");
+            openBtn.classList.add("active");
+
+            closedBtn.classList.remove("active");
+            allBtn.classList.remove("active");
 
             if (e.status === "closed") {
                 allCards.classList.add("!hidden");
 
             }
-        })
-
-
+        });
 
 
         closedBtn.addEventListener('click', () => {
             numOfIssues.innerText = " ";
             numOfIssues.innerText = closedIssues.length;
-
             allCards.classList.remove("!hidden");
+            closedBtn.classList.add("active");
+
+            openBtn.classList.remove("active");
+            allBtn.classList.remove("active");
 
             if (e.status === "open") {
                 allCards.classList.add("!hidden");
@@ -204,7 +219,13 @@ const displayAllData = (cards) => {
 
         allBtn.addEventListener('click', () => {
             allCards.classList.remove("!hidden");
+            allBtn.classList.add("active");
+
+            openBtn.classList.remove("active");
+            closedBtn.classList.remove("active");
         })
+
+       
     });
 }
 
